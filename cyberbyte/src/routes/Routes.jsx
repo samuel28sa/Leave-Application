@@ -6,11 +6,11 @@ import History from "../page/private/History";
 export const AppRoutes = [
   {
     path: "/",
-    // element: <Login />,
+    element: <Login />,
   },
   {
     path: "/signup",
-    // element: <Signup />,
+    element: <Signup />,
   },
   {
     path: "/admin",
