@@ -7,6 +7,7 @@ const port = 5000;
 const dotenv = require("dotenv").config();
 const morgan = require("morgan");
 const announcementRoute = require("./Routes/announcementsRoute");
+const leaveRoute = require("./Routes/leaverequestsRoute");
 // const announcementsRoutes = require("./Routes/announcementsRoute.js");
 
 if (dotenv.error) {
@@ -27,5 +28,6 @@ app.use(
 );
 app.use("/announcements", announcementRoute);
 app.use("/user", userRoute);
+app.use("/leave-requests", leaveRoute);
 
 app.listen(port, () => console.log(`App is running on port ${port}`));
