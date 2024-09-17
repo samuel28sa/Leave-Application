@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const Announcement = require("../Model/announcementsModel"); // Adjust the path as necessary
+const Announcement = require("../Model/announcementsModel");
 
 const createAnnouncement = asyncHandler(async (req, res) => {
   try {
@@ -16,7 +16,6 @@ const createAnnouncement = asyncHandler(async (req, res) => {
 
     res.status(201).json(createdAnnouncement);
   } catch (error) {
-    // Handle any errors that occurred during the process
     res.status(400).json({ message: error.message });
   }
 });
