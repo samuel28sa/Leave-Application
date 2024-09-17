@@ -1,4 +1,4 @@
-const { connect } = require("mongoose");
+import { connect } from "mongoose";
 
 const dbConnect = () => {
   connect("mongodb://localhost:27017/CyberbyteTest")
@@ -10,4 +10,4 @@ const dbConnect = () => {
     });
 };
 
-module.exports = dbConnect;
+export default dbConnect;

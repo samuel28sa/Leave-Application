@@ -1,8 +1,8 @@
-const express = require("express");
-const app = express();
-const mongoose = require("mongoose");
-const leaveRequest = require("../Model/leaverequestsModel");
-const asyncHandler = require("express-async-handler");
+// import express from "express";
+// const app = express();
+// const mongoose = require("mongoose");
+// import leaveRequest from "../Model/leaverequestsModel.js";
+import asyncHandler from "express-async-handler";
 
 const createleaverequests = asyncHandler(async (req, res) => {
   try {
@@ -25,4 +25,4 @@ const createleaverequests = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = createleaverequests;
+export { createleaverequests };

@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
-const asyncHandler = require("express-async-handler");
-const User = require("../Model/userModel");
+import jwt from "jsonwebtoken";
+import asyncHandler from "express-async-handler";
+import User from "../Model/userModel.js";
 
 const authMiddleware = asyncHandler(async (req, res, next) => {
   let token;
@@ -36,7 +36,4 @@ const isAdmin = asyncHandler(async (req, res, next) => {
   return res.status(403).json({ message: "Access denied. Admins only." });
 });
 
-module.exports = {
-  authMiddleware,
-  isAdmin,
-};
+export { authMiddleware, isAdmin };

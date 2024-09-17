@@ -1,22 +1,27 @@
-const express = require("express");
-const cors = require("cors");
-const userRoute = require("./Routes/userRoute");
-const dbConnect = require("./Config/Db");
-const app = express();
-const port = 5000;
-const dotenv = require("dotenv").config();
-const morgan = require("morgan");
-const announcementRoute = require("./Routes/announcementsRoute");
-const leaveRoute = require("./Routes/leaverequestsRoute");
+import express from "express";
+import cors from "cors";
+import userRoute from "./Routes/userRoute.js";
+import dbConnect from "./Config/Db.js";
+import dotenv from "dotenv";
+import morgan from "morgan";
+import announcementRoute from "./Routes/announcementsRoute.js";
+import leaveRoute from "./Routes/leaverequestsRoute.js";
+import path from "path";
+import * as url from "url";
 // const announcementsRoutes = require("./Routes/announcementsRoute.js");
 
 if (dotenv.error) {
   throw dotenv.error;
 }
 
+const app = express();
+const port = 8001;
+const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
+app.use(express.static(path.join(__dirname, "../cyberbyte", "dist")));
+app.use("*", express.static(path.join(__dirname, "../cyberbyte", "dist")));
 
 dbConnect();
 

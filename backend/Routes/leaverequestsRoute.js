@@ -1,8 +1,8 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+const router = Router();
 
-const leaveRequest = require("../Controller/leaverequestsController");
-const { authMiddleware, isAdmin } = require("../middleware/authMiddleware");
+import { createleaverequests } from "../Controller/leaverequestsController.js";
+import { authMiddleware, isAdmin } from "../middleware/authMiddleware.js";
 
-router.post("/", authMiddleware, isAdmin, leaveRequest);
-module.exports = router;
+router.post("/", authMiddleware, isAdmin, createleaverequests);
+export default router;
