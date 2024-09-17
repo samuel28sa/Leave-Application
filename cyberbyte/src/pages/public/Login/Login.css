@@ -1,0 +1,138 @@
+/* * {
+  padding: 0;
+  margin: 0;
+  background-color: white;
+}
+
+.App {
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  height: 700px;
+  margin: 10px;
+  /* background-color: aqua; */
+  /* border: 1px solid black;
+  border-radius: 10px;
+}
+
+body {
+  background-color: white;
+} */
+
+/* .right-side {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  padding: 30px;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 100px;
+  height: 103px;
+}
+
+.Login {
+  text-align: center;
+  color: rgb(245, 134, 52);
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-family: Inter;
+}
+
+.wrapper-email {
+  position: relative;
+}
+
+.email-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 4px;
+  position: absolute;
+  box-sizing: border-box;
+  top: 50%;
+  left: 2px;
+  transform: translateY(-50%);
+}
+
+.email {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  padding-left: 2rem;
+}
+
+.wrapper-password {
+  position: relative;
+}
+
+.padlock {
+  height: 1.5rem;
+  width: 1.5rem;
+  padding: 4px;
+  position: absolute;
+  box-sizing: border-box;
+  top: 50%;
+  left: 2px;
+  transform: translateY(-50%);
+}
+
+.password {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  padding-left: 2rem;
+}
+
+.forgot-password {
+  float: right;
+  color: #f58634;
+  text-decoration: none;
+}
+
+.forgot-password :hover {
+  text-decoration: underline;
+}
+
+button {
+  background-color: #f58634;
+  color: #ffffff;
+  border: none;
+  width: 100%;
+  padding: 10px;
+}
+
+.send1 :hover {
+  background-color: #d97b3c;
+}
+
+.signup {
+  text-align: center;
+}
+
+.signup :hover {
+  text-decoration: underline;
+}
+
+.sign{
+color: #f58634;
+padding-left: 5px;
+}
+
+.form {
+  width: 70%;
+}
+
+.left-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 800px;
+}
+
+.leave-logo {
+  width: 100%;
+  height: 100%;
+} */ 
