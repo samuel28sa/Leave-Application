@@ -1,8 +1,8 @@
-const User = require("../Model/userModel");
-const jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer");
-const bcrypt = require("bcrypt");
-const AsyncHandler = require("express-async-handler");
+import User from "../Model/userModel.js";
+import jwt from "jsonwebtoken";
+import nodemailer from "nodemailer";
+import bcrypt from "bcrypt";
+import AsyncHandler from "express-async-handler";
 
 const resetpasswordrequest = AsyncHandler(async (req, res) => {
   const { email } = req.body;
@@ -89,7 +89,4 @@ const resetpasswordtoken = AsyncHandler(async (req, res) => {
   // return res.send('Email exists in the database');
 });
 
-module.exports = {
-  resetpasswordrequest,
-  resetpasswordtoken,
-};
+export { resetpasswordrequest, resetpasswordtoken };

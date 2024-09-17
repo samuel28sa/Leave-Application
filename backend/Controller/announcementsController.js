@@ -1,5 +1,5 @@
-const asyncHandler = require("express-async-handler");
-const Announcement = require("../Model/announcementsModel");
+import asyncHandler from "express-async-handler";
+import Announcement from "../Model/announcementsModel.js";
 
 const createAnnouncement = asyncHandler(async (req, res) => {
   try {
@@ -20,8 +20,6 @@ const createAnnouncement = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = createAnnouncement;
-
 const getAnnouncements = async (req, res) => {
   try {
     const announcements = await Announcement.find();
@@ -31,7 +29,4 @@ const getAnnouncements = async (req, res) => {
   }
 };
 
-module.exports = {
-  createAnnouncement,
-  getAnnouncements,
-};
+export { createAnnouncement, getAnnouncements };

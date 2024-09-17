@@ -1,8 +1,8 @@
-const express = require("express");
-const router = express.Router();
+import { Router } from "express";
+const router = Router();
 // const announcementsController = require("../controllers/announcementsController");
-const { createAnnouncement } = require("../Controller/announcementsController");
-const { authMiddleware, isAdmin } = require("../middleware/authMiddleware");
+import { createAnnouncement } from "../Controller/announcementsController.js";
+import { authMiddleware, isAdmin } from "../middleware/authMiddleware.js";
 // const adminMiddleware = require("../middleware/adminMiddleware");
 
 // router.get('/', announcementsController.getAnnouncements);
@@ -22,4 +22,4 @@ router.post("/", authMiddleware, isAdmin, createAnnouncement);
 //   announcementsController.deleteAnnouncement
 // );
 
-module.exports = router;
+export default router;
