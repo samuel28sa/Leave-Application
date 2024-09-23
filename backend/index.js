@@ -25,13 +25,18 @@ app.use("*", express.static(path.join(__dirname, "../cyberbyte", "dist")));
 
 dbConnect();
 
-app.use(
-  cors({
-    credentials: true,
-    origin: "localhost:5173",
-  })
-);
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: "localhost:5173",
+//   })
+// );
+//
+const cors = require("cors");
+app.use(cors({ origin: "http://localhost:5173" }));
+
 app.use("/announcements", announcementRoute);
+
 app.use("/user", userRoute);
 app.use("/leave-requests", leaveRoute);
 
