@@ -80,21 +80,7 @@ const Login = () => {
             <br />
           </div>
 
-          <div className="send">
-            <div className="text-center">
-              Don't have an account?
-              <a href=""
-               onClick={() => {
-                  navigate("/signup");
-                }}><span
-                className="text-[#f58634] pl-1 hover:underline"
-                
-              >
-                signup
-              </span>
-              </a>
-            </div>
-          </div>
+  
         </form>
       </div>
     </div>
