@@ -6,10 +6,10 @@ import asyncHandler from "express-async-handler";
 
 const createleaverequests = asyncHandler(async (req, res) => {
   try {
-    const { employee_id, start_date, end_date, reason } = req.body;
+    const { start_date, end_date, reason } = req.body;
 
     const leaverequests = new leaverequests({
-      employee_id,
+      employee_id: req.user._id,
       start_date,
       end_date,
       reason,
