@@ -8,6 +8,7 @@ import announcementRoute from "./Routes/announcementsRoute.js";
 import leaveRoute from "./Routes/leaverequestsRoute.js";
 import path from "path";
 import * as url from "url";
+
 // const announcementsRoutes = require("./Routes/announcementsRoute.js");
 
 if (dotenv.error) {
@@ -32,7 +33,6 @@ dbConnect();
 //   })
 // );
 //
-const cors = require("cors");
 app.use(cors({ origin: "http://localhost:5173" }));
 
 app.use("/announcements", announcementRoute);

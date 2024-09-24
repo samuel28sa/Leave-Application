@@ -5,9 +5,31 @@ import { GiPadlock } from "react-icons/gi";
 import logo from "../../../images/logo.png";
 import "./Signup.css";
 import image from "../../../images/leave-management.svg";
+import { useState } from "react";
+import httpClient from "../../../../api/axios";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await httpClient
+      .post("/user", formData)
+      .then((res) => {
+        console.log("Data received", res.data);
+        console.log("User registered successfully");
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className="flex flex-row p-2 h-[700px] m-2 rounded-lg  border border-black w-[1520px]">
       <div className="flex flex-column justify-centre w-[800px] ">
@@ -27,7 +49,10 @@ const Signup = () => {
               type="text"
               name="username"
               placeholder="Username"
-            
+              value={formData.username}
+              onChange={(e) =>
+                setFormData({ ...formData, username: e.target.value })
+              }
             />
           </div>
           <br />
@@ -41,7 +66,10 @@ const Signup = () => {
                 type="email"
                 name="email"
                 placeholder="Email"
-                
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
               />
             </div>
           </div>
@@ -56,7 +84,10 @@ const Signup = () => {
                 type="password"
                 name="password"
                 placeholder="Password"
-                
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
               />
             </div>
           </div>
@@ -71,7 +102,6 @@ const Signup = () => {
                 type="password"
                 name="password"
                 placeholder="Password"
-              
               />
             </div>
             <br />
@@ -81,6 +111,7 @@ const Signup = () => {
             <button
               type="submit"
               className="bg-[#f58634] text-white w-full p-2 rounded hover:bg-[#d97b3c] font-bold hover:border-none focus:outline-none"
+              onClick={handleSubmit}
             >
               Sign Up
             </button>
