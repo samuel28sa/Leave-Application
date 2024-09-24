@@ -3,12 +3,27 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
 import axios from "axios";
+import httpClient from "../../../../api/axios";
 
 const Resetpasswordrequest = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [formData, setFormData] = useState({
+    email:"",
+  });
 
-  const handleSubmit = async (e) => {};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await httpClient
+      .post("/user/resetpassword", formData)
+      .then((res) =>{
+        console.log("Data received", res.data);
+        console.log("reset link sent to your email");
+        navigate("/reset");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen m-auto bg-white w-[1536px]">
@@ -30,7 +45,7 @@ const Resetpasswordrequest = () => {
             please enter your email to reset the password
           </p>
         </div>
-        <form onSubmit={handleSubmit}>
+        <form>
           <div className="bg-[#E1DBDB] ">
             <label className="font-[inter] bg-[#E1DBDB]" htmlFor="">
               Your Email
@@ -40,18 +55,20 @@ const Resetpasswordrequest = () => {
               type="email"
               className="border rounded-lg  w-full p-2 focus:outline-none"
               placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={(e) => 
+                setFormData({ ...formData, email: e.target.value})
+              }
             />
           </div>
         </form>
         <div
-          onClick={() => {
-            navigate("/reset");
-          }}
           className="text-center pt-8 bg-[#E1DBDB] pb-20 "
         >
-          <button className=" bg-[#f58634] p-2 w-full rounded-lg text-black border-none hover:bg-[#e4813f] focus:outline-none">
+          <button 
+          className=" bg-[#f58634] p-2 w-full rounded-lg text-black border-none hover:bg-[#e4813f] focus:outline-none"
+          onClick={handleSubmit}
+          >
             Reset password
           </button>
         </div>

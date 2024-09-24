@@ -13,16 +13,12 @@ export const AppRoutes = [
     element: <Login />,
   },
   {
-    path: "/Login",
-    element: <Login />,
-  },
-  {
     path: "/resetpassword",
-    element: <Resetpasswordrequest/>,
+    element: <Resetpasswordrequest />,
   },
   {
     path: "/reset",
-    element: <Resetpassword/>,
+    element: <Resetpassword />,
   },
   {
     path: "/signup",

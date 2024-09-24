@@ -10,7 +10,7 @@ import httpClient from "../../../../api/axios";
 const Login = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -18,7 +18,7 @@ const Login = () => {
     e.preventDefault();
     await httpClient
       .post(`/user/login`, {
-        email: formData?.email,
+        username: formData?.username,
         password: formData?.password,
       })
       .then((response) => {
@@ -28,7 +28,7 @@ const Login = () => {
       })
       .catch((error) => {
         console.log(error);
-        console.log(error?.response?.data?.message || "An error occurred");
+        console.log(error?.response?.data?.message);
       });
   };
 
@@ -46,18 +46,17 @@ const Login = () => {
 
         <form className="w-3/4">
           <div className="email-field">
-            <label htmlFor="">Email</label>
+            <label htmlFor="">Username</label>
             <div className="relative">
               <MdOutlineEmail className="h-6 w-6 p-1 absolute  top-2.5 left-1 translate-y--1/2 " />
               <input
-                type="email"
-                name="email"
-                value={formData.email}
+                type="text"
+                value={formData.username}
                 onChange={(e) => {
-                  setFormData({ ...formData, email: e.target.value });
+                  setFormData({ ...formData, username: e.target.value });
                 }}
                 className="w-full p-3 pl-8  border-black shadow appearance-none border rounded-lg  text-gray-700 leading-tight  focus:outline-none focus:shadow-outline"
-                placeholder="Email"
+                placeholder="Username"
                 required
               />
             </div>
@@ -70,7 +69,6 @@ const Login = () => {
               <GiPadlock className="h-6 w-6 p-1 absolute  top-2.5 left-1 translate-y--1/2 " />
               <input
                 type="password"
-                name="password"
                 value={formData.password}
                 onChange={(e) => {
                   setFormData({ ...formData, password: e.target.value });
@@ -97,14 +95,15 @@ const Login = () => {
           <br />
 
           <div>
-            <form className="w-3/4" onSubmit={handleSubmit}>
+            <div className="">
               <button
+                onClick={handleSubmit}
                 type="submit"
-                className="bg-[#f58634] text-white w-full p-2 rounded hover:bg-[#d97b3c] font-bold hover:border-none focus:outline-none"
+                className="bg-[#f58634] text-white w-full p-2 rounded-2xl hover:bg-[#d97b3c] font-bold hover:border-none focus:outline-none"
               >
                 Login
               </button>
-            </form>
+            </div>
 
             <br />
             <br />
