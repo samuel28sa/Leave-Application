@@ -10,7 +10,7 @@ import path from "path";
 import * as url from "url";
 
 // const announcementsRoutes = require("./Routes/announcementsRoute.js");
-
+dotenv.config();
 if (dotenv.error) {
   throw dotenv.error;
 }

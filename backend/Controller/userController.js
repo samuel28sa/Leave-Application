@@ -3,6 +3,7 @@ import User from "../Model/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import express from "express";
+import LeaveModel from "../Model/leaverequestsModel.js";
 const app = express();
 
 app.use(express.json());
@@ -35,7 +36,10 @@ const loginUser = asyncHandler(async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({
+      $or: [{ username }, { email: username }],
+    });
+
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -49,7 +53,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const token = jwt.sign(
       { id: user._id, username: user.username },
-      "iamaboyfromnigeriainlagos",
+      process.env.JWT_SECRET,
       { expiresIn: "60d" }
     );
 
@@ -75,4 +79,64 @@ const userProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { registerUser, loginUser, userProfile };
+const getUserLeaveRequests = asyncHandler(async (req, res) => {
+  try {
+    const leaveRequests = await LeaveModel.find({ userId: req.user._id });
+
+    return res.json(leaveRequests);
+  } catch (error) {
+    console.error(error);
+    return res.status(400).json({ message: "Oops! Something went wrong." });
+  }
+});
+
+const upComingCelebrants = asyncHandler(async (req, res) => {
+  try {
+    const currentDate = new Date();
+    const celebrants = await User.find(
+      {
+        $expr: {
+          $and: [
+            {
+              $gte: [
+                {
+                  $month: "$dob",
+                },
+                currentDate.getMonth(),
+              ],
+            },
+            {
+              $and: [
+                {
+                  $gte: [
+                    {
+                      $dayOfMonth: "$dob",
+                    },
+                    currentDate.getDay(),
+                  ],
+                },
+                {
+                  $eq: [{ $month: "$dob" }, currentDate.getMonth()],
+                },
+              ],
+            },
+          ],
+        },
+      },
+      { password: false }
+    );
+
+    return res.json(celebrants);
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Something went wrong.Please try again" });
+  }
+});
+
+export {
+  registerUser,
+  loginUser,
+  userProfile,
+  getUserLeaveRequests,
+  upComingCelebrants,
+};

@@ -15,7 +15,7 @@ function createClient() {
 function handleBearerTokenInterceptor(config) {
   const token = localStorage.getItem("token");
   if (token?.length) {
-    config.headers.set("Authorization", Bearer`${token}`);
+    config.headers["Authorization"] = `Bearer ${token}`;
   }
   return config;
 }

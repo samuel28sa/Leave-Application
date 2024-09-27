@@ -2,8 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { MdOutlineArrowBackIosNew } from "react-icons/md";
-import axios from "axios";
-import httpClient from "../../../../api/axios";
+import httpClient from "../../../api/axios";
 
 const Resetpasswordrequest = () => {
   const navigate = useNavigate();
@@ -18,7 +17,7 @@ const Resetpasswordrequest = () => {
       .then((res) =>{
         console.log("Data received", res.data);
         console.log("reset link sent to your email");
-        navigate("/reset");
+        navigate("");
       })
       .catch((error) => {
         console.log(error);

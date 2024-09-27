@@ -6,7 +6,7 @@ import logo from "../../../images/logo.png";
 import "./Signup.css";
 import image from "../../../images/leave-management.svg";
 import { useState } from "react";
-import httpClient from "../../../../api/axios";
+import httpClient from "../../../api/axios";
 
 const Signup = () => {
   const navigate = useNavigate();

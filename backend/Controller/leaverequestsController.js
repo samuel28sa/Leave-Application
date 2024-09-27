@@ -1,7 +1,7 @@
 // import express from "express";
 // const app = express();
 // const mongoose = require("mongoose");
-// import leaveRequest from "../Model/leaverequestsModel.js";
+import leaveRequest from "../Model/leaverequestsModel.js";
 import asyncHandler from "express-async-handler";
 
 const createleaverequests = asyncHandler(async (req, res) => {
@@ -9,13 +9,10 @@ const createleaverequests = asyncHandler(async (req, res) => {
     const { start_date, end_date, reason } = req.body;
 
     const leaverequests = new leaverequests({
-      employee_id: req.user._id,
+      userId: req.user._id,
       start_date,
       end_date,
       reason,
-      status: "pending",
-      created_at: new Date(),
-      updated_at: new Date(),
     });
 
     await leaverequest.save();
