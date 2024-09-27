@@ -4,5 +4,5 @@ const router = Router();
 import { createleaverequests } from "../Controller/leaverequestsController.js";
 import { authMiddleware, isAdmin } from "../middleware/authMiddleware.js";
 
-router.post("/", authMiddleware, isAdmin, createleaverequests);
+router.post("/", authMiddleware, createleaverequests);
 export default router;

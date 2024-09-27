@@ -11,13 +11,14 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
-
+      console.log(process.env.JWT_SECRET, token);
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
+      console.log(decoded);
       req.user = await User.findById(decoded.id).select("-password");
 
       next();
     } catch (error) {
+      console.trace(error);
       res.status(401);
       throw new Error("Not authorized, token failed");
     }

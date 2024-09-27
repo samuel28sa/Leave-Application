@@ -12,16 +12,13 @@ import image from "../../../assets/Image.png";
 import image2 from "../../../assets/Image2.png";
 import image3 from "../../../assets/Image3.png";
 import { useNavigate } from "react-router-dom";
-import { useUserProfile } from "../../../stores/userProfile";
-import Celebrants from "./Component/Celebrants";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const profile = useUserProfile((state) => state.profile);
   return (
     <div className="container">
       <section className="flex items-center justify-between p-1 ">
-        <div>Welcome Back, {profile?.username} 👋</div>
+        <div>Welcome Back, Joy 👋</div>
         <div className="text-white border p-3 border-orange-400 rounded-md bg-orange-400">
           <div
             className=" cursor-pointer"
@@ -95,7 +92,21 @@ const Dashboard = () => {
               <option>Yesterday</option>
               <option>Last Week</option>
             </select> */}
-            <Celebrants />
+            <Panel
+              className="h-80"
+              Background={() => (
+                <div className="flex justify-center h-fit"></div>
+              )}
+            >
+              <h3 className="text-black font-bold">
+                Celebrations this month🎉
+              </h3>
+
+              <div className="border-b-2 border-b-grey-400"></div>
+              <div className="flex justify-center mt-8">
+                <img src={image3} />
+              </div>
+            </Panel>
           </div>
         </div>
       </section>

@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GiPadlock } from "react-icons/gi";
 import { MdOutlineEmail } from "react-icons/md";
 import logo from "../../../images/logo.png";
 import "../Login/Login.css";
 import image from "../../../images/leave-management.svg";
-import httpClient from "../../../../api/axios";
+import httpClient from "../../../api/axios";
+import { useUserProfile } from "../../../stores/userProfile";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [isBusy, setIsBusy] = useState(false);
+  const userProfile = useUserProfile((state) => state.profile);
+  const setUserProfile = useUserProfile((state) => state.setProfile);
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -16,6 +20,8 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isBusy) return;
+    setIsBusy(true);
     await httpClient
       .post(`/user/login`, {
         username: formData?.username,
@@ -29,9 +35,20 @@ const Login = () => {
       .catch((error) => {
         console.log(error);
         console.log(error?.response?.data?.message);
+      })
+      .finally(() => {
+        setIsBusy(false);
       });
   };
 
+  const navigateIfLoggedIn = async () => {
+    if (!userProfile) return;
+    navigate("/admin");
+  };
+
+  useEffect(() => {
+    navigateIfLoggedIn();
+  }, [userProfile]);
   return (
     <div className="flex flex-row p-2 h-[700px] m-2 rounded-lg border border-black w-[1520px]">
       <div className="flex flex-column justify-centre w-[800px]">
@@ -99,7 +116,8 @@ const Login = () => {
               <button
                 onClick={handleSubmit}
                 type="submit"
-                className="bg-[#f58634] text-white w-full p-2 rounded-2xl hover:bg-[#d97b3c] font-bold hover:border-none focus:outline-none"
+                disabled={isBusy}
+                className="bg-[#f58634] text-white w-full p-2 rounded-2xl hover:bg-[#d97b3c] font-bold hover:border-none focus:outline-none disabled:opacity-50 disabled:cursor-wait"
               >
                 Login
               </button>
