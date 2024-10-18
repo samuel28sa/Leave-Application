@@ -17,6 +17,7 @@ const Login = () => {
     username: "",
     password: "",
   });
+  const [err, setErr] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,6 +36,7 @@ const Login = () => {
       .catch((error) => {
         console.log(error);
         console.log(error?.response?.data?.message);
+        setErr(error?.response?.data?.message);
       })
       .finally(() => {
         setIsBusy(false);
@@ -122,6 +124,7 @@ const Login = () => {
                 Login
               </button>
             </div>
+            <div className="text-red-600">{err}</div>
 
             <br />
             <br />

@@ -5,6 +5,7 @@ import dbConnect from "./Config/Db.js";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import announcementRoute from "./Routes/announcementsRoute.js";
+import historyRoute from "./Routes/historyRoute.js";
 import leaveRoute from "./Routes/leaverequestsRoute.js";
 import path from "path";
 import * as url from "url";
@@ -39,5 +40,6 @@ app.use("/announcements", announcementRoute);
 
 app.use("/user", userRoute);
 app.use("/leave-requests", leaveRoute);
+app.use("/history", historyRoute);
 
 app.listen(port, () => console.log(`App is running on port ${port}`));
