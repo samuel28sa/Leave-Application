@@ -1,8 +1,9 @@
 import { Router } from "express";
 const router = Router();
 
-import { createleaverequests } from "../Controller/leaverequestsController.js";
+import { createLeaveRequest, getLeaveRequestsByUser } from "../Controller/leaverequestsController.js";
 import { authMiddleware, isAdmin } from "../middleware/authMiddleware.js";
 
-router.post("/", authMiddleware, createleaverequests);
+router.post("/", authMiddleware, createLeaveRequest);
+router.get("/:id", authMiddleware, getLeaveRequestsByUser);
 export default router;
