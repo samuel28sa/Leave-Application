@@ -22,7 +22,7 @@ const History = () => {
           <thead>
             <tr>
               <th className="text-left font-bold">Leave Balance</th>
-              <th className="text-center font-bold">Used</th>
+              {/* <th className="text-center font-bold">Used</th> */}
               <th className="text-center font-bold">Taken</th>
               <th className="text-center font-bold">Entitled</th>
               <th className="text-center font-bold">Balance</th>
@@ -32,7 +32,7 @@ const History = () => {
             {leaveData.map((item, index) => (
               <tr key={index}>
                 <td className="text-left">{item.type}</td>
-                <td className="text-center">{item.used}</td>
+                {/* <td className="text-center">{item.used}</td> */}
                 <td className="text-center">{item.taken}</td>
                 <td className="text-center">{item.entitled}</td>
                 <td className="text-center">{item.balance} days</td>

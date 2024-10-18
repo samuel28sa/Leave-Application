@@ -5,16 +5,23 @@ import { useNavigate } from "react-router-dom";
 const Header = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+
+  const handlelogout = () => {
+    console.log("called");
+    localStorage.clear();
+    navigate("/");
+  };
+
   const options = [
     {
       id: 1,
       label: "View Profile",
-      onClick: "/profile",
+      onClick: () => {},
     },
     {
       id: 2,
       label: "Log out",
-      onClick: "/login",
+      onClick: () => handlelogout(),
     },
   ];
 
@@ -28,7 +35,7 @@ const Header = () => {
                 <div
                   key={item.id}
                   className="text-sm border-b py-2"
-                  onClick={() => navigate(item.onClick)}
+                  onClick={item.onClick}
                 >
                   {item.label}
                 </div>

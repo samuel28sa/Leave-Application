@@ -18,13 +18,13 @@ const userSchema = new Schema(
       type: String,
       default: "user",
     },
-    dob: {
-      type: Date,
-      required: true,
-      default: null,
-    },
     password: {
       type: String,
+      required: true,
+    },
+    leaveTotal: {
+      type: Number,
+      default: 3,
       required: true,
     },
     resetPasswordToken: {
