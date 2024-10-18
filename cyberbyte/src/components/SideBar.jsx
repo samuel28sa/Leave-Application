@@ -10,27 +10,29 @@ const SideBar = () => {
   const items = [
     {
       name: "Dashboard",
-      icon: <MdDashboard />,
+      icon: <MdDashboard className="w-9 h-9"/>,
       url: "/admin",
     },
     {
       name: "History",
-      icon: <GoHistory />,
+      icon: <GoHistory className="w-9 h-9"/>,
       url: "/admin/history",
     },
   ];
   return (
-    <div className="sidebar">
-      <img src={download} alt="image" className="image" />
+    <div className="space-y-5">
+      <img src={download} alt="image" className="border rounded-full" />
 
-      {items.map((item, index) => {
-        return (
-          <div key={index} onClick={() => navigate(item.url)}>
-            <div>{item.icon}</div>
-            {item.name}
-          </div>
-        );
-      })}
+      <div className="space-y-5 my-2">
+        {items.map((item, index) => {
+          return (
+            <div key={index} onClick={() => navigate(item.url)} className="flex flex-row items-center space-x-2 cursor-pointer">
+              <div>{item.icon}</div>
+              <span className="text-lg">{item.name}</span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

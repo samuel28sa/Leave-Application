@@ -7,13 +7,13 @@ export const Panel = ({
   ...props
 }) => {
   return (
-    <div className={`${className} bg-white rounded divide-y p-2 min-h-28`}>
+    <aritcle className={`${className} bg-white rounded divide-y p-2 min-h-28`}>
       <Header />
       <div className="relative">
         <div>{children}</div>
         <Background className="absolute gz" />
       </div>
-    </div> 
+    </aritcle> 
   );
 };
 

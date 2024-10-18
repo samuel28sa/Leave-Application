@@ -24,7 +24,7 @@ function App() {
     fetchUser();
   }, []);
   return (
-    <div className="app">
+    <div className="">
       <RouterProvider router={route} />
     </div>
   );

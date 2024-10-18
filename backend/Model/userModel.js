@@ -22,7 +22,27 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    leaveTotal: {
+    annualLeave: {
+      type: Number,
+      default: 3,
+      required: true,
+    },
+    casualLeave: {
+      type: Number,
+      default: 3,
+      required: true,
+    },
+    adjustmentLeave: {
+      type: Number,
+      default: 3,
+      required: true,
+    },
+    unpaidLeave: {
+      type: Number,
+      default: 3,
+      required: true,
+    },
+    halfLeave: {
       type: Number,
       default: 3,
       required: true,
