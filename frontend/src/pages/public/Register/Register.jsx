@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MdOutlineEmail } from "react-icons/md";
+import { MdOutlineApartment, MdOutlineEmail, MdOutlinePermIdentity } from "react-icons/md";
 import { GiPadlock } from "react-icons/gi";
 import logo from "../../../images/logo.png";
 import image from "../../../images/leave-management.svg";
@@ -9,10 +9,12 @@ import httpClient from "../../../api/axios";
 const Register = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    username: "",
+    name: "",
     email: "",
     password: "",
-    confirmPassword: "", 
+    confirmPassword: "",
+    officeId: "",
+    department: ""
   });
   const [isBusy, setIsBusy] = useState(false)
   const [err, setError] = useState("");
@@ -56,8 +58,8 @@ const Register = () => {
               <MdOutlineEmail className="absolute top-3 left-3 h-6 w-6 text-gray-400" />
               <input
                 type="text"
-                value={formData.username}
-                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-primary focus:ring-1"
                 placeholder="Enter your username"
                 required
@@ -76,6 +78,37 @@ const Register = () => {
                 placeholder="Enter your email"
                 required
               />
+            </div>
+          </div>
+          <div className="flex flex-row items-center space-x-2">
+            <div className="mb-5">
+                <label className="block text-gray-600 mb-2">Office ID</label>
+                <div className="relative">
+                <MdOutlinePermIdentity className="absolute top-3 left-3 h-6 w-6 text-gray-400" />
+                <input
+                    type="text"
+                    value={formData.officeId}
+                    onChange={(e) => setFormData({ ...formData, officeId: e.target.value })}
+                    className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-primary focus:ring-1"
+                    placeholder="Enter your office id"
+                    required
+                />
+                </div>
+            </div>
+
+            <div className="mb-5">
+                <label className="block text-gray-600 mb-2">Department</label>
+                <div className="relative">
+                <MdOutlineApartment className="absolute top-3 left-3 h-6 w-6 text-gray-400" />
+                <input
+                    type="text"
+                    value={formData.department}
+                    onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                    className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-primary focus:ring-primary focus:ring-1"
+                    placeholder="Enter your department"
+                    required
+                />
+                </div>
             </div>
           </div>
 

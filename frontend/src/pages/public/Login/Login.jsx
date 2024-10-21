@@ -22,11 +22,12 @@ const Login = () => {
     setIsBusy(true);
     await httpClient
       .post(`/user/login`, {
-        username: formData?.username,
+        email: formData?.username,
         password: formData?.password,
       })
-      .then((response) => {
-        localStorage.setItem("token", response?.data?.token);
+      .then(({data}) => {
+        console.log(data)
+        localStorage.setItem("token", data?.token);
         navigate(`/admin`);
       })
       .catch((error) => {
