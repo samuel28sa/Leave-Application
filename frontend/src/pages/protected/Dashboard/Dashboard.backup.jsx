@@ -8,7 +8,6 @@ import "./Dashboard.css";
 import Cards from "../../../components/Cards";
 import { GrAnnounce } from "react-icons/gr";
 import { MdSearch } from "react-icons/md";
-
 const Dashboard = () => {
   return (
     <div className="container">
@@ -42,8 +41,8 @@ const Dashboard = () => {
         <div className="who">
           <div className="h2">
             <h4 className="leave-title">Who's on Leave</h4>
-          </div> 
-          
+          </div>
+
           <div className="on-leave">
             <h4>On leave: </h4>
             <select className="date-range">
