@@ -1,22 +1,41 @@
 import { useState } from "react";
+import axios from "axios";
 
 function RequestTimeOff() {
   const [formData, setFormData] = useState({
-    name: "",
-    department: "",
     type: "",
     startDate: "",
     endDate: "",
     reason: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Form submitted:", formData);
+    setLoading(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      const response = await axios.post("/api/leaverequests", {
+        type: formData.type,
+        start_date: formData.startDate,
+        end_date: formData.endDate,
+        reason: formData.reason,
+      });
+      setSuccessMessage("Leave request submitted successfully!");
+    } catch (error) {
+      setErrorMessage(
+        error.response?.data?.error || "Error submitting request."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (event) => {
-    // console.log(event);
     const { target } = event;
     const { id, value } = target;
     setFormData({ ...formData, [id]: value });
@@ -34,36 +53,6 @@ function RequestTimeOff() {
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="name"
-          >
-            Name
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="name"
-            type="text"
-            value={formData.name}
-            onChange={(e) => handleChange(e)}
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="department"
-          >
-            Department
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="department"
-            type="text"
-            value={formData.department}
-            onChange={(e) => handleChange(e)}
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="type"
           >
             Type
@@ -72,19 +61,18 @@ function RequestTimeOff() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="type"
             value={formData.type}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
           >
             <option value="">Select Leave Type</option>
-            <option value="vacation">Vacation</option>
+            <option value="annual">Annual</option>
             <option value="sick">Sick</option>
-            <option value="personal">Personal</option>
-            {/* Add more leave types here */}
+            <option value="casual">Casual</option>
           </select>
         </div>
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="start_date"
+            htmlFor="startDate"
           >
             Start Date
           </label>
@@ -93,13 +81,13 @@ function RequestTimeOff() {
             id="startDate"
             type="date"
             value={formData.startDate}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
           />
         </div>
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="end_date"
+            htmlFor="endDate"
           >
             End Date
           </label>
@@ -108,7 +96,7 @@ function RequestTimeOff() {
             id="endDate"
             type="date"
             value={formData.endDate}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
           />
         </div>
         <div className="mb-4">
@@ -122,14 +110,19 @@ function RequestTimeOff() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="reason"
             value={formData.reason}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
           />
         </div>
+
+        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+        {successMessage && <p className="text-green-500">{successMessage}</p>}
+
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus-shadow-outline"
           type="submit"
+          disabled={loading}
         >
-          Submit
+          {loading ? "Submitting..." : "Submit"}
         </button>
       </form>
     </div>

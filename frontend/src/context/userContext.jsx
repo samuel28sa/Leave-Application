@@ -1,16 +1,34 @@
-import { createContext, useState, useEffect } from 'react';
-import useProfile from '../hooks/useProfile';
+import { createContext, useState, useEffect, useContext } from "react";
+import useProfile from "../hooks/useProfile";
 
 const UserContext = createContext();
 
-const UserProvider = ({ children }) => {
-  const {user} = useProfile()
+export const UserProvider = ({ children }) => {
+  const { user, error, loading } = useProfile();
+  const [contextValue, setContextValue] = useState(null);
+
+  useEffect(() => {
+    if (user) {
+      setContextValue(user);
+    }
+  }, [user]);
+
+  // if (error) return <div>Error: {error.message}</div>;
 
   return (
-    <UserContext.Provider value={{ user }}>
+    <UserContext.Provider value={{ contextValue, user }}>
       {children}
     </UserContext.Provider>
   );
 };
 
-export { UserContext, UserProvider };
+export const useAuth = () => {
+  const context = useContext(UserContext);
+
+  if (context === undefined) {
+    throw new Error("useProfile must be used within a context provider");
+  }
+  return context;
+};
+
+export default UserContext;

@@ -1,20 +1,23 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
 import Cards from "../../../components/Cards";
 import Panel from "./Component/Panel";
 import image3 from "../../../assets/Image3.png";
 import { useNavigate } from "react-router-dom";
 import useProfile from "../../../hooks/useProfile";
 import useLeaveRequests from "../../../hooks/useLeaveRequests";
+import { useAuth } from "../../../context/userContext";
+import useAnnouncements from "../../../hooks/useAnnouncements";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const {user} = useProfile()
-  const {requests, loading} = useLeaveRequests(user?._id)
-
-  const [announcements, setAnnouncements] = useState([]);
-  const [loadingAnnouncements, setLoadingAnnouncements] = useState(true);
-  const [errorAnnouncements, setErrorAnnouncements] = useState(null);
+  const user = useAuth();
+  const { requests, loading } = useLeaveRequests(user?._id);
+  const {
+    announcements,
+    loading: isLoading,
+    error,
+    refresh,
+  } = useAnnouncements();
 
   const [leaveData, setLeaveData] = useState([]);
   const [loadingLeave, setLoadingLeave] = useState(false);
@@ -23,21 +26,7 @@ const Dashboard = () => {
   const [loadingLeaveRequests, setLoadingLeaveRequests] = useState(false);
   const [errorLeaveRequests, setErrorLeaveRequests] = useState(false);
   const [leaveRequests, setLeaveRequests] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchAnnouncements = async () => {
-  //     try {
-  //       const response = await axios.get("/api/announcements");
-  //       setAnnouncements(response.data);
-  //     } catch (err) {
-  //       setErrorAnnouncements(err.message || "Error fetching announcements");
-  //     } finally {
-  //       setLoadingAnnouncements(false);
-  //     }
-  //   };
-
-  //   fetchAnnouncements();
-  // }, []);
+  console.log(user);
 
   // // Fetch leave data based on selected range
   // useEffect(() => {
@@ -77,10 +66,10 @@ const Dashboard = () => {
   // }, []);
 
   return (
-    <div className="px-5 w-full">
+    <div className="w-full">
       <section className="flex items-center justify-between bg-white p-4 shadow-md rounded-lg mb-6">
         <div className="text-xl font-semibold text-gray-700">
-          Welcome Back, <span className="capitalize">{user?.username}</span> 👋
+          Welcome Back, <span className="capitalize">{user?.name}</span> 👋
         </div>
         <button
           className="bg-orange-500 text-white py-2 px-4 rounded-lg shadow-md hover:bg-orange-600 transition"
@@ -107,16 +96,16 @@ const Dashboard = () => {
               <h3 className="text-black font-bold">Announcements📢</h3>
               <div className="border-b-2 border-b-grey-400"></div>
               <div className="mt-4">
-                {loadingAnnouncements ? (
+                {isLoading ? (
                   <p>Loading announcements...</p>
-                ) : errorAnnouncements ? (
-                  <p>Error: {errorAnnouncements}</p>
+                ) : error ? (
+                  <p>Error: {error}</p>
                 ) : (
                   <ul>
-                    {announcements.length === 0 ? (
+                    {announcements?.length === 0 ? (
                       <p>No announcements to show</p>
                     ) : (
-                      announcements.map((announcement) => (
+                      announcements?.map((announcement) => (
                         <li key={announcement._id} className="py-1">
                           <strong>{announcement.title}</strong>
                           <p>{announcement.content}</p>

@@ -11,6 +11,8 @@ export default function () {
     try {
       const data = await getProfile();
       setUser(data);
+      localStorage.setItem("token", data?.token);
+      console.log(data.token);
     } catch (error) {
       setError(error);
     } finally {
@@ -22,6 +24,5 @@ export default function () {
     fetchData();
   }, []);
 
-  return { user, loading, error, refresh: fetchData }
-
+  return { user, loading, error, refresh: fetchData };
 }

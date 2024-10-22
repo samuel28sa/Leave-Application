@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
-import Header from '../components/Header';
-import Sidebar from '../components/Sidebar';
+import React, { useState } from "react";
+import { Outlet } from "react-router-dom";
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 
 const AppLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -16,7 +16,11 @@ const AppLayout = () => {
       <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
 
       {/* Main content */}
-      <div className={`flex-1 transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-20'}`}>
+      <div
+        className={`flex-1 transition-all duration-300 ${
+          isSidebarOpen ? "ml-64" : "ml-20"
+        }`}
+      >
         {/* Header */}
         <Header toggleSidebar={toggleSidebar} />
 
