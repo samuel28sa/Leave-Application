@@ -1,34 +1,51 @@
-import { createContext, useState, useEffect, useContext } from "react";
-import useProfile from "../hooks/useProfile";
+import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
+import { BASE_URL } from "../api/axios";
 
-const UserContext = createContext();
+const GlobalContext = createContext();
+export const useGlobalContext = () => useContext(GlobalContext);
 
-export const UserProvider = ({ children }) => {
-  const { user, error, loading } = useProfile();
-  const [contextValue, setContextValue] = useState(null);
+export const GlobalProvider = ({ children }) => {
+  const [user, setUser] = useState();
+  const [loading, setLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [log, setLog] = useState(false);
+
+  const config = async () => {
+    setLoading(true);
+    const token = await localStorage.getItem("token");
+
+    await axios
+      .get(`${BASE_URL}/user/profile`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((data) => {
+        setLoading(false);
+      })
+      .catch(() => {});
+  };
 
   useEffect(() => {
-    if (user) {
-      setContextValue(user);
+    if (log) {
+      config();
     }
-  }, [user]);
-
-  // if (error) return <div>Error: {error.message}</div>;
+  }, [log]);
 
   return (
-    <UserContext.Provider value={{ contextValue, user }}>
+    <GlobalContext.Provider
+      value={{
+        isLoggedIn,
+        setIsLoggedIn,
+        user,
+        setUser,
+        loading,
+        setLog,
+        config
+      }}
+    >
       {children}
-    </UserContext.Provider>
+    </GlobalContext.Provider>
   );
 };
-
-export const useAuth = () => {
-  const context = useContext(UserContext);
-
-  if (context === undefined) {
-    throw new Error("useProfile must be used within a context provider");
-  }
-  return context;
-};
-
-export default UserContext;
