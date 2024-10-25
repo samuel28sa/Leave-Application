@@ -17,53 +17,80 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <img
           src={download}
           alt="image"
-          className="border rounded-full h-28 w-28"
+          className="w-12 h-12 border rounded-full"
         />
-        <span className="text-primary text-sm mt-2">Cyberbyte</span>
+        <span
+          className={`mt-2 text-sm text-primary ${isOpen ? "block" : "hidden"}`}
+        >
+          Cyberbyte
+        </span>
       </div>
       <nav className="mt-5">
         <NavLink
           to="/admin"
-          className="flex items-center p-4 hover:bg-gray-700"
+          className={({ isActive }) =>
+            `flex items-center p-4 ${isActive ? "bg-white" : "hover:bg-white"}`
+          }
+          end
         >
-          <FiHome className="text-2xl fill-primary" />
-          <span
-            className={`ml-4 text-lg text-primary font-semibold transition-opacity duration-300 ${
-              isOpen ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            Dashboard
-          </span>
+          <FiHome
+            className={`text-2xl fill-primary ${!isOpen ? "mx-auto" : ""}`}
+          />
+          {isOpen && (
+            <span
+              className={`ml-4 text-lg text-primary font-semibold transition-opacity duration-300 ${
+                isOpen ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              Dashboard
+            </span>
+          )}
         </NavLink>
 
         {user?.role === "admin" && (
           <NavLink
             to="/admin/request"
-            className="flex items-center p-4 hover:bg-gray-700"
+            className={({ isActive }) =>
+              `flex items-center p-4 ${
+                isActive ? "bg-white" : "hover:bg-white"
+              }`
+            }
           >
-            <FiList className="text-2xl fill-primary text-primary" />
-            <span
-              className={`ml-4 text-lg transition-opacity duration-300 text-primary font-semibold ${
-                isOpen ? "opacity-100" : "opacity-0"
+            <FiList
+              className={`text-2xl fill-primary text-primary ${
+                !isOpen ? "mx-auto" : ""
               }`}
-            >
-              Request
-            </span>
+            />
+            {isOpen && (
+              <span
+                className={`ml-4 text-lg transition-opacity duration-300 text-primary font-semibold ${
+                  isOpen ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                Request
+              </span>
+            )}
           </NavLink>
         )}
 
         <NavLink
           to="/admin/history"
-          className="flex items-center p-4 hover:bg-gray-700"
+          className={({ isActive }) =>
+            `flex items-center p-4 ${isActive ? "bg-white" : "hover:bg-white"}`
+          }
         >
-          <FiSettings className="text-2xl fill-primary" />
-          <span
-            className={`ml-4 text-lg transition-opacity duration-300 text-primary font-semibold ${
-              isOpen ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            History
-          </span>
+          <FiSettings
+            className={`text-2xl fill-primary ${!isOpen ? "mx-auto" : ""}`}
+          />
+          {isOpen && (
+            <span
+              className={`ml-4 text-lg transition-opacity duration-300 text-primary font-semibold ${
+                isOpen ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              History
+            </span>
+          )}
         </NavLink>
       </nav>
     </div>
