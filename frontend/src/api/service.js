@@ -9,3 +9,8 @@ export const getAnnouncements = async () => {
   const { data } = await httpClient.get("/dashboard/announcements");
   return data;
 };
+
+export const getDashboardStats = async () => {
+  const { data } = await httpClient.get("/dashboard/stats");
+  return data;
+};
