@@ -5,98 +5,118 @@ import { MdOutlineEmail } from "react-icons/md";
 import logo from "../../../assets/download.jpeg";
 import image from "../../../images/leave-management.svg";
 import httpClient from "../../../api/axios";
+import Spinner from "../../../components/Spinner";
+import { toast } from "react-toastify";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import useProfile from "../../../hooks/useProfile";
+import { useGlobalContext } from "../../../context/userContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [isBusy, setIsBusy] = useState(false);
-  const userProfile = false;
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
   const [err, setErr] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const { handleLogin, isBusy, isAuthenticated } = useGlobalContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (isBusy) return;
-    setIsBusy(true);
-    await httpClient
-      .post(`/user/login`, {
-        email: formData?.username,
-        password: formData?.password,
-      })
-      .then(async({data}) => {
-        console.log(data?.token)
-        await localStorage.setItem("token", data?.token);
-        window.location.replace("/admin");
-      })
-      .catch((error) => {
-        const message = error?.response?.data?.message === "User not found" ? "Invalid Credetials" : error?.response?.data?.message
-        setErr(message);
-      })
-      .finally(() => {
-        setIsBusy(false);
-      });
-  };
 
-  const navigateIfLoggedIn = async () => {
-    if (!userProfile) return;
-    navigate("/admin");
+    try {
+      const data = await handleLogin({
+        email: formData.username,
+        password: formData.password,
+      });
+
+      window.location.replace("/admin");
+      toast.success("Login Successful");
+    } catch (error) {
+      const message =
+        error?.response?.data?.message === "User not found"
+          ? "Invalid Credentials"
+          : error?.response?.data?.message;
+      setErr(message);
+      toast.error(message);
+    }
   };
 
   useEffect(() => {
-    navigateIfLoggedIn();
-  }, [userProfile]);
+    // Only redirect to admin if authenticated
+    if (isAuthenticated) {
+      navigate("/admin");
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
-    <div className="flex flex-col lg:flex-row h-screen items-center justify-center bg-gray-100">
-      <div className="hidden lg:flex lg:w-1/2 items-center justify-center">
-        <img src={image} alt="Leave Management" className="w-3/4 h-auto" />
-      </div>
+    <div className="flex flex-col items-center justify-center h-screen lg:bg-gray-100">
+      {/* <div className="items-center justify-center hidden lg:flex lg:w-1/2">
+        <img src={image} alt="Leave Management" className="w-fullh-auto" />
+      </div> */}
 
-      <div className="bg-white shadow-lg rounded-lg p-10 lg:w-1/3 w-4/5 mx-auto">
+      <div className="w-full max-w-lg p-10 bg-white rounded-lg lg:shadow-lg">
         <div className="flex justify-center mb-6">
           <img src={logo} alt="Logo" className="w-20 h-20 rounded-full" />
         </div>
 
-        <div className="text-center text-2xl font-bold text-gray-700 mb-6">
+        <div className="mb-6 text-2xl font-bold text-center text-gray-700">
           <h1>Login</h1>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-5">
-            <label className="block text-gray-600 mb-2">Username</label>
+            <label className="block mb-2 text-gray-600">Email</label>
             <div className="relative">
-              <MdOutlineEmail className="absolute top-3 left-3 h-6 w-6 text-gray-400" />
+              <MdOutlineEmail className="absolute w-6 h-6 text-gray-400 top-3 left-3" />
               <input
-                type="text"
+                type="email"
                 value={formData.username}
-                onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#f58634] focus:ring-[#f58634] focus:ring-1"
-                placeholder="Enter your username"
+                onChange={(e) =>
+                  setFormData({ ...formData, username: e.target.value })
+                }
+                className={`w-full pl-10 p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#f58634] focus:ring-[#f58634] focus:ring-1 ${
+                  err ? "border-red-500" : ""
+                } `}
+                placeholder="Enter your email"
                 required
+                autoFocus
               />
             </div>
           </div>
 
           <div className="mb-5">
-            <label className="block text-gray-600 mb-2">Password</label>
             <div className="relative">
-              <GiPadlock className="absolute top-3 left-3 h-6 w-6 text-gray-400" />
-              <input
-                type="password"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full pl-10 p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#f58634] focus:ring-[#f58634] focus:ring-1"
-                placeholder="Enter your password"
-                required
-              />
+              <label className="block mb-2 text-gray-600">Password</label>
+              <div className="relative">
+                <GiPadlock className="absolute w-6 h-6 text-gray-400 top-3 left-3" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                  className={`w-full pl-10 p-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#f58634] focus:ring-[#f58634] focus:ring-1 ${
+                    err ? "border-red-500" : ""
+                  } `}
+                  placeholder="Enter your password"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className={`absolute inset-y-1 top-1 right-0 pr-3 flex items-center`}
+                >
+                  {showPassword ? <FiEye size={20} /> : <FiEyeOff size={20} />}
+                </button>
+              </div>
             </div>
           </div>
 
-          {err && <div className="text-red-600 text-sm text-center">{err}</div>}
+          {/* {err && <div className="text-sm text-center text-red-600">{err}</div>} */}
 
-          <div className="text-right mb-6">
+          <div className="mb-6 text-right">
             <a
               onClick={() => navigate("/resetpassword")}
               className="text-[#f58634] hover:underline cursor-pointer"
@@ -111,7 +131,7 @@ const Login = () => {
               disabled={isBusy}
               className="w-full p-3 bg-[#f58634] text-white rounded-lg hover:bg-[#d97b3c] transition-colors font-bold focus:outline-none focus:ring-2 focus:ring-[#f58634] focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-wait"
             >
-              {isBusy ? "Logging in..." : "Login"}
+              {isBusy ? <Spinner /> : "Login"}
             </button>
           </div>
 

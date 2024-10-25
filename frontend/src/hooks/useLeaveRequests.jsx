@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-// import {  getRequests } from "../api/service";
-import useProfile from "./useProfile";
+import { getLeaveRequests } from "../api/service";
 
-export default function () {
+export default function (userId) {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
@@ -10,8 +9,8 @@ export default function () {
   const fetchData = async () => {
     setLoading(true);
     try {
-      // const data = await getRequests(id);
-      // setRequests(data);
+      const data = await getLeaveRequests(userId);
+      setRequests(data);
     } catch (error) {
       setError(error);
     } finally {
@@ -20,9 +19,10 @@ export default function () {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (userId) {
+      fetchData();
+    }
+  }, [userId]);
 
-  return { requests, loading, error, refresh: fetchData }
-
+  return { requests, loading, error, refresh: fetchData };
 }
