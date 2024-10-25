@@ -1,5 +1,6 @@
 import axios from "axios";
 export const httpClient = createClient();
+export const BASE_URL = import.meta.env.VITE_BASE_URL
 
 function createClient() {
   const client = axios.create({

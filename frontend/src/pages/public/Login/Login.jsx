@@ -9,7 +9,7 @@ import httpClient from "../../../api/axios";
 const Login = () => {
   const navigate = useNavigate();
   const [isBusy, setIsBusy] = useState(false);
-  const userProfile = false; // For demo purposes
+  const userProfile = false;
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -25,10 +25,10 @@ const Login = () => {
         email: formData?.username,
         password: formData?.password,
       })
-      .then(({data}) => {
-        console.log(data)
-        localStorage.setItem("token", data?.token);
-        navigate(`/admin`);
+      .then(async({data}) => {
+        console.log(data?.token)
+        await localStorage.setItem("token", data?.token);
+        window.location.replace("/admin");
       })
       .catch((error) => {
         const message = error?.response?.data?.message === "User not found" ? "Invalid Credetials" : error?.response?.data?.message

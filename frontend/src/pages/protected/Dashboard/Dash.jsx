@@ -1,32 +1,29 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Cards from "../../../components/Cards";
 import Panel from "./Component/Panel";
 import image3 from "../../../assets/Image3.png";
 import { useNavigate } from "react-router-dom";
-import useProfile from "../../../hooks/useProfile";
 import useLeaveRequests from "../../../hooks/useLeaveRequests";
-import { useAuth } from "../../../context/userContext";
-import useAnnouncements from "../../../hooks/useAnnouncements";
+import { useGlobalContext } from "../../../context/userContext";
+import useAnnouncements from "../../../hooks/useAnnouncements.jsx";
+import useDashStats from "../../../hooks/useDashStats.jsx";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const user = useAuth();
+  const {user} = useGlobalContext()
+  const {stats} = useDashStats()
+  const {usersOnLeave, leaveStats, userLeaveStatus } = stats
+  console.log(stats)
   const { requests, loading } = useLeaveRequests(user?._id);
-  const {
-    announcements,
-    loading: isLoading,
-    error,
-    refresh,
-  } = useAnnouncements();
+  const [announcements, setAnnouncements] = useState([])
 
   const [leaveData, setLeaveData] = useState([]);
   const [loadingLeave, setLoadingLeave] = useState(false);
   const [errorLeave, setErrorLeave] = useState(null);
   const [selectedRange, setSelectedRange] = useState("Today");
-  const [loadingLeaveRequests, setLoadingLeaveRequests] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [errorLeaveRequests, setErrorLeaveRequests] = useState(false);
-  const [leaveRequests, setLeaveRequests] = useState([]);
-  console.log(user);
+  const [error, setError] = useState([])
 
   // // Fetch leave data based on selected range
   // useEffect(() => {
@@ -127,10 +124,10 @@ const Dashboard = () => {
                   <p>Error: {errorLeaveRequests}</p>
                 ) : (
                   <ul>
-                    {requests.length === 0 ? (
+                    {(userLeaveStatus ?? []).length === 0 ? (
                       <p>You have no leave requests</p>
                     ) : (
-                      requests.map((leave) => (
+                      (userLeaveStatus ?? []).map((leave) => (
                         <li key={leave._id} className="py-1">
                           <strong>
                             {leave.startDate.split("T")[0]} to{" "}
@@ -169,10 +166,10 @@ const Dashboard = () => {
                   <p>Error: {errorLeave}</p>
                 ) : (
                   <ul>
-                    {leaveData.length === 0 ? (
+                    {(usersOnLeave ?? []).length === 0 ? (
                       <p>No one is on leave</p>
                     ) : (
-                      leaveData.map((leave) => (
+                      (usersOnLeave ?? []).map((leave) => (
                         <li key={leave._id} className="py-1">
                           <strong>{leave.userId.username}</strong> is on leave
                           from {new Date(leave.startDate).toLocaleDateString()}{" "}

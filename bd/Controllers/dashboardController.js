@@ -1,7 +1,6 @@
 const Leave = require("../Models/leave");
 const Announcement = require("../Models/announcements");
 
-// Get leave statistics, users currently on leave, current user's leave status, and announcements
 const getDashboardStats = async (req, res) => {
   try {
     const leaveStats = await Leave.aggregate([
@@ -34,10 +33,10 @@ const getDashboardStats = async (req, res) => {
     res.json({
       leaveStats,
       usersOnLeave,
-      userLeaveStatus,
-      announcements,
+      userLeaveStatus
     });
   } catch (error) {
+    // console.log(error)
     res.status(500).json({ message: error.message });
   }
 };

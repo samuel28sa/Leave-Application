@@ -7,7 +7,7 @@ const {
   getAnnouncements,
 } = require("../Controllers/dashboardController");
 
-router.get("/stats", authMiddleware, isAdmin, getDashboardStats);
+router.get("/stats", authMiddleware, getDashboardStats);
 router.post(
   "/create-announcements",
   authMiddleware,

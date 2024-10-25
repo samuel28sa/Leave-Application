@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
-import { getProfile } from "../api/service";
+// import {  getRequests } from "../api/service";
+import useProfile from "./useProfile";
+import { getDashboardStats } from "../api/service";
 
 export default function () {
-  const [user, setUser] = useState();
+  const [stats, setStats] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      const data = await getProfile();
-      setUser(data);
-      console.log(data.token);
+      const data = await getDashboardStats();
+      setStats(data)
     } catch (error) {
       setError(error);
     } finally {
@@ -23,5 +24,6 @@ export default function () {
     fetchData();
   }, []);
 
-  return { user, loading, error, refresh: fetchData };
+  return { stats, loading, error, refresh: fetchData }
+
 }
