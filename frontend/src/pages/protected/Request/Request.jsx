@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import useDashStats from "../../../hooks/useDashStats";
 import Spinner from "../../../components/Spinner";
+import httpClient from "../../../api/axios";
+import { toast } from "react-toastify";
 
 const AdminLeaveApprovalPage = () => {
-  const { stats, loading, error } = useDashStats();
+  const { stats, loading, error, refresh } = useDashStats();
   const { usersOnLeave } = stats;
+  const [isLoading, setIsLoading] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
 
-  const itemsPerPage = 10; // Number of items to display per page
+  const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
 
   // Calculate the index of the first and last item on the current page
@@ -22,6 +26,42 @@ const AdminLeaveApprovalPage = () => {
     setCurrentPage(pageNumber);
   };
 
+  const approveLeave = async (leaveId) => {
+    setIsLoading(true);
+
+    await httpClient
+      .put(`/leave/admin/${leaveId}`, { status: "approved" })
+      .then(({ data }) => {
+        toast.success(data.message);
+        refresh();
+      })
+      .catch((error) => {
+        let message = error.response?.data?.message || "Error approving leave";
+        toast.error(message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  const rejectLeave = async (leaveId) => {
+    setIsBusy(true);
+
+    await httpClient
+      .put(`/leave/admin/${leaveId}`, { status: "rejected" })
+      .then(({ data }) => {
+        toast.success(data.message);
+        refresh();
+      })
+      .catch((error) => {
+        let message = error.response?.data?.message || "Error approving leave";
+        toast.error(message);
+      })
+      .finally(() => {
+        setIsBusy(false);
+      });
+  };
+
   return (
     <div className="">
       <h1 className="mb-6 text-3xl font-bold text-white-700">Leave Requests</h1>
@@ -30,7 +70,7 @@ const AdminLeaveApprovalPage = () => {
         {loading ? (
           <Spinner />
         ) : error ? (
-          <p>Error: {error}</p>
+          <p>Error: {error.message}</p>
         ) : (
           <table className="min-w-full overflow-hidden bg-white rounded-lg shadow-md">
             <thead className="text-sm leading-normal text-orange-400 uppercase bg-gray-200">
@@ -80,7 +120,7 @@ const AdminLeaveApprovalPage = () => {
                         className={`${
                           request?.status === "approved"
                             ? "text-green-500"
-                            : request?.status === "denied"
+                            : request?.status === "rejected"
                             ? "text-red-500"
                             : "text-yellow-500"
                         } font-semibold`}
@@ -92,11 +132,23 @@ const AdminLeaveApprovalPage = () => {
                     <td className="px-6 py-3 text-center">
                       {request?.status === "pending" ? (
                         <div className="flex justify-center space-x-2 item-center">
-                          <button className="px-3 py-1 text-white bg-green-500 rounded hover:bg-green-700">
-                            Approve
+                          <button
+                            className="px-3 py-1 text-white bg-green-500 rounded hover:bg-green-700"
+                            onClick={() => {
+                              approveLeave(request._id);
+                            }}
+                            disabled={isLoading}
+                          >
+                            {isLoading ? <Spinner /> : "Approve"}
                           </button>
-                          <button className="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-700">
-                            Reject
+                          <button
+                            className="px-3 py-1 text-white bg-red-500 rounded hover:bg-red-700"
+                            onClick={() => {
+                              rejectLeave(request._id);
+                            }}
+                            disabled={isBusy}
+                          >
+                            {isBusy ? <Spinner /> : "Reject"}
                           </button>
                         </div>
                       ) : (

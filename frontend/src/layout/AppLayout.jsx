@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import Spinner from "../components/Spinner";
 
 const AppLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -16,6 +17,12 @@ const AppLayout = () => {
       setIsSidebarOpen(true); // Expand on larger screens
     }
   };
+
+  const Fallback = () => (
+    <div className="flex items-center justify-center h-screen bg-secondary">
+      <Spinner className={`w-10 h-10`} />
+    </div>
+  );
 
   useEffect(() => {
     handleResize(); // Initial check on page load
@@ -46,7 +53,9 @@ const AppLayout = () => {
 
         {/* Content */}
         <div className="h-full p-4 bg-secondary">
-          <Outlet />
+          <Suspense fallback={<Fallback />}>
+            <Outlet />
+          </Suspense>
         </div>
       </div>
     </div>
