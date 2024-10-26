@@ -65,6 +65,21 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             History
           </span>
         </NavLink>
+        {user?.role === "admin" && (
+          <NavLink
+            to="/admin/CreateAnnouncements"
+            className="flex items-center p-4 hover:bg-gray-700"
+          >
+            <FiList className="text-2xl fill-primary text-primary" />
+            <span
+              className={`ml-4 text-lg transition-opacity duration-300 text-primary font-semibold ${
+                isOpen ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              Create Announcements
+            </span>
+          </NavLink>
+        )}
       </nav>
     </div>
   );

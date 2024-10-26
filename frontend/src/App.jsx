@@ -6,22 +6,23 @@ import Login from "./pages/public/Login/Login";
 import Register from "./pages/public/Register/Register";
 import History from "./pages/protected/History/History";
 import AdminLeaveApprovalPage from "./pages/protected/Dashboard/Component/Request";
+import CreateAnnouncements from "./pages/protected/Dashboard/Component/Create Announcements";
 
 const App = () => {
   return (
-   
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/admin" element={<AppLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="/admin/history" element={<History />} />
-            <Route path="form" element={<RequestTimeOff />} />
-            <Route path="request" element={<AdminLeaveApprovalPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/admin" element={<AppLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="/admin/history" element={<History />} />
+          <Route path="form" element={<RequestTimeOff />} />
+          <Route path="request" element={<AdminLeaveApprovalPage />} />
+          <Route path="CreateAnnouncements" element={<CreateAnnouncements />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 
