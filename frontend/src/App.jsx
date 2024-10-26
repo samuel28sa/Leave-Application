@@ -1,17 +1,29 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy } from "react";
 import AppLayout from "./layout/AppLayout";
-import Dashboard from "./pages/protected/Dashboard/Dash";
-import RequestTimeOff from "./pages/protected/Dashboard/Component/LeaveRequest";
+const Dashboard = lazy(() => import("./pages/protected/Dashboard/Dashboard"));
+const RequestTimeOff = lazy(() =>
+  import("./pages/protected/Dashboard/Component/LeaveRequest")
+);
 import Login from "./pages/public/Login/Login";
 import Register from "./pages/public/Register/Register";
+
 import History from "./pages/protected/History/History";
-import AdminLeaveApprovalPage from "./pages/protected/Dashboard/Component/Request";
+
 import CreateAnnouncements from "./pages/protected/Dashboard/Component/Create Announcements";
+
+import { ProtectedRoute, PublicRoute } from "./components/Routes";
+const History = lazy(() => import("./pages/protected/History/History"));
+const AdminLeaveApprovalPage = lazy(() =>
+  import("./pages/protected/Request/Request")
+);
+
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/admin" element={<AppLayout />}>
@@ -20,6 +32,36 @@ const App = () => {
           <Route path="form" element={<RequestTimeOff />} />
           <Route path="request" element={<AdminLeaveApprovalPage />} />
           <Route path="CreateAnnouncements" element={<CreateAnnouncements />} />
+
+        <Route
+          path="/"
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="/admin/*"
+          element={
+            <ProtectedRoute>
+              <AppLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<Dashboard />} />
+          <Route path="history" element={<History />} />
+          <Route path="form" element={<RequestTimeOff />} />
+          <Route path="request" element={<AdminLeaveApprovalPage />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

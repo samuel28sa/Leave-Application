@@ -11,7 +11,6 @@ export default function () {
     try {
       const data = await getProfile();
       setUser(data);
-      console.log(data.token);
     } catch (error) {
       setError(error);
     } finally {

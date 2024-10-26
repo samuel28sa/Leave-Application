@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-// import {  getRequests } from "../api/service";
-import useProfile from "./useProfile";
 import { getDashboardStats } from "../api/service";
 
 export default function () {
@@ -12,7 +10,7 @@ export default function () {
     setLoading(true);
     try {
       const data = await getDashboardStats();
-      setStats(data)
+      setStats(data);
     } catch (error) {
       setError(error);
     } finally {
@@ -24,6 +22,5 @@ export default function () {
     fetchData();
   }, []);
 
-  return { stats, loading, error, refresh: fetchData }
-
+  return { stats, loading, error, refresh: fetchData };
 }

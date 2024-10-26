@@ -14,3 +14,8 @@ export const getDashboardStats = async () => {
   const { data } = await httpClient.get("/dashboard/stats");
   return data;
 };
+
+export const getLeaveRequests = async (userId) => {
+  const response = await httpClient.get(`/leave/${userId}`);
+  return response.data;
+};

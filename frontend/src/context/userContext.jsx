@@ -1,51 +1,50 @@
-import axios from "axios";
-import { createContext, useContext, useEffect, useState } from "react";
-import { BASE_URL } from "../api/axios";
+import { createContext, useContext, useState } from "react";
+import httpClient from "../api/axios";
 
 const GlobalContext = createContext();
-export const useGlobalContext = () => useContext(GlobalContext);
+
+export const useGlobalContext = () => {
+  const context = useContext(GlobalContext);
+  if (!context) {
+    throw new Error("useGlobalContext must be used within a GlobalProvider");
+  }
+  return context;
+};
 
 export const GlobalProvider = ({ children }) => {
-  const [user, setUser] = useState();
-  const [loading, setLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [log, setLog] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return !!localStorage.getItem("token");
+  });
+  const [isBusy, setIsBusy] = useState(false);
 
-  const config = async () => {
-    setLoading(true);
-    const token = await localStorage.getItem("token");
-
-    await axios
-      .get(`${BASE_URL}/user/profile`, {
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then((data) => {
-        setLoading(false);
-      })
-      .catch(() => {});
+  const logout = () => {
+    localStorage.removeItem("token");
+    setIsAuthenticated(false);
+    window.location.replace("/");
   };
 
-  useEffect(() => {
-    if (log) {
-      config();
+  const handleLogin = async (credentials) => {
+    setIsBusy(true);
+    try {
+      const { data } = await httpClient.post("/user/login", credentials);
+      await localStorage.setItem("token", data?.token);
+      setIsAuthenticated(true);
+      return data;
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsBusy(false);
     }
-  }, [log]);
+  };
+
+  const value = {
+    isAuthenticated,
+    isBusy,
+    handleLogin,
+    logout,
+  };
 
   return (
-    <GlobalContext.Provider
-      value={{
-        isLoggedIn,
-        setIsLoggedIn,
-        user,
-        setUser,
-        loading,
-        setLog,
-        config
-      }}
-    >
-      {children}
-    </GlobalContext.Provider>
+    <GlobalContext.Provider value={value}>{children}</GlobalContext.Provider>
   );
 };
