@@ -10,6 +10,6 @@ const route = Router();
 
 route.post("/", authMiddleware, createLeave);
 route.get("/:userId", authMiddleware, getAllLeaves);
-route.patch("/admin/:leaveId", authMiddleware, isAdmin, controlLeave);
+route.put("/admin/:leaveId", authMiddleware, isAdmin, controlLeave);
 
 module.exports = route;

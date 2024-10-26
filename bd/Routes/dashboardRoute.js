@@ -14,5 +14,5 @@ router.post(
   isAdmin,
   createAnnouncement
 );
-router.get("/announcements", authMiddleware, isAdmin, getAnnouncements);
+router.get("/announcements", authMiddleware, getAnnouncements);
 module.exports = router;

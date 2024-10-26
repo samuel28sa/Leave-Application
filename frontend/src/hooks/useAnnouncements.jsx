@@ -7,7 +7,6 @@ const useAnnouncements = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const { user } = useProfile();
-  const isAdmin = user?.role === "admin";
 
   const fetchData = async () => {
     setLoading(true);
@@ -22,10 +21,8 @@ const useAnnouncements = () => {
   };
 
   useEffect(() => {
-    if (isAdmin) {
-      fetchData();
-    }
-  }, [isAdmin]);
+    fetchData();
+  }, []);
 
   return {
     announcements,

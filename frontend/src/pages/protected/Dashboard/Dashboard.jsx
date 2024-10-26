@@ -48,7 +48,7 @@ const Dashboard = () => {
       <section className="grid w-full grid-cols-2 gap-3">
         <div className="grid col-span-2 gap-2 p-1 lg:grid-cols-5">
           <Cards title={"Casual Leave"} avail={user?.casualLeave} used={0} />
-          <Cards title={"Sick Leave"} avail={user?.adjustmentLeave} used={0} />
+          <Cards title={"Sick Leave"} avail={leaveStats?.sick} used={0} />
           <Cards title={"Annual Leave"} avail={user?.annualLeave} used={0} />
           {/* <Cards title={"Adjustment Leave"} avail={5} used={0} /> */}
           <Cards title={"Unpaid Leave"} avail={user?.unpaidLeave} used={0} />
@@ -58,53 +58,49 @@ const Dashboard = () => {
         <div className="grid col-span-2 gap-2 lg:grid-cols-6">
           <div className="flex flex-col h-full col-span-4 gap-2 ">
             {/* Announcements Panel */}
-            {isAdmin && (
-              <Panel className="h-48 p-4 rounded-lg shadow-md bg-gray-50">
-                <h3 className="mb-2 text-lg font-bold text-black">
-                  Announcements 📢
-                </h3>
-                <div className="mb-4 border-b-2 border-gray-300"></div>
-                <div className="mt-2">
-                  {announcementLoading ? (
-                    <Spinner />
-                  ) : error ? (
-                    <p className="text-red-500">Error: {error}</p>
-                  ) : (
-                    <ul className="space-y-2">
-                      {announcements?.length === 0 ? (
-                        <p className="text-gray-500">
-                          No announcements to show
-                        </p>
-                      ) : (
-                        <ul className="space-y-2">
-                          {announcements?.map((announcement) => (
-                            <li
-                              key={announcement._id}
-                              className="p-2 rounded-md"
-                            >
-                              <h4 className="font-semibold capitalize">
-                                {announcement.title}
-                              </h4>
-                              <p className="text-sm ">{announcement.content}</p>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </ul>
-                  )}
-                </div>
-              </Panel>
-            )}
+
+            <Panel className="h-48 p-4 rounded-lg shadow-md bg-gray-50">
+              <h3 className="mb-2 text-lg font-bold text-black">
+                Announcements 📢
+              </h3>
+              <div className="mb-4 border-b-2 border-gray-300"></div>
+              <div className="mt-2">
+                {announcementLoading ? (
+                  <Spinner />
+                ) : error ? (
+                  <p className="text-red-500">Error: {error.message}</p>
+                ) : (
+                  <ul className="space-y-2">
+                    {announcements?.length === 0 ? (
+                      <p className="text-gray-500">No announcements to show</p>
+                    ) : (
+                      <ul className="space-y-2">
+                        {announcements?.map((announcement) => (
+                          <li key={announcement._id} className="p-2 rounded-md">
+                            <h4 className="font-semibold capitalize">
+                              {announcement.title}
+                            </h4>
+                            <p className="text-sm ">{announcement.content}</p>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </ul>
+                )}
+              </div>
+            </Panel>
 
             {!isAdmin && (
               <Panel className="rounded-lg shadow-md h-96">
-                <h3 className="font-bold text-black">Your Leave Requests</h3>
+                <h3 className="mb-2 text-lg font-bold text-black">
+                  Your Leave Requests
+                </h3>
                 <div className="border-b-2 border-b-grey-400"></div>
                 <div className="mt-4">
                   {loading ? (
                     <Spinner />
                   ) : errorRequest ? (
-                    <p>Error: {errorRequest}</p>
+                    <p>Error: {errorRequest.message}</p>
                   ) : (
                     <table className="min-w-full bg-white shadow-md">
                       <thead className="text-sm leading-normal text-orange-400 uppercase bg-gray-200">
@@ -174,7 +170,9 @@ const Dashboard = () => {
 
           <div className="flex flex-col col-span-2 gap-2 rounded-md">
             <Panel className="h-64 rounded-lg shadow-md">
-              <h3 className="font-bold text-black">Who's on leave🤷‍♂️</h3>
+              <h3 className="mb-2 text-lg font-bold text-black">
+                Who's on leave🤷‍♂️
+              </h3>
               <div className="border-b-2 border-b-grey-400"></div>
               <select
                 className="p-2 mt-1 border border-gray-600 rounded"
@@ -189,7 +187,7 @@ const Dashboard = () => {
                 {loadingLeave ? (
                   <Spinner />
                 ) : errorLeave ? (
-                  <p>Error: {errorLeave}</p>
+                  <p>Error: {errorLeave.message}</p>
                 ) : (
                   <ul>
                     {usersOnLeave?.length === 0 ? (

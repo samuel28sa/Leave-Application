@@ -38,7 +38,7 @@ function RequestTimeOff() {
         console.log(data);
         toast.success("Leave request submitted successfully");
         navigate("/admin");
-        refresh;
+        refresh();
       })
       .catch((error) => {
         const message =

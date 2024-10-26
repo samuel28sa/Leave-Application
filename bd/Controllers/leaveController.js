@@ -50,7 +50,7 @@ const getAllLeaves = async (req, res) => {
   }
 };
 
-const controlLeave = async () => {
+const controlLeave = async (req, res) => {
   const { status } = req.body;
   try {
     const leave = await Leave.findById(req.params.leaveId);
@@ -59,7 +59,7 @@ const controlLeave = async () => {
     }
     leave.status = status;
     await leave.save();
-    res.json(leave);
+    res.json({ message: "Leave status updated successfully", leave });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
