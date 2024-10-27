@@ -30,7 +30,7 @@ const History = () => {
     <>
       <div className="rounded-md bg-orange-50">
         <h2 className="mb-4 text-xl font-bold">Leave History</h2>
-        <table className="min-w-full bg-white shadow-md">
+        <table className="min-w-full overflow-hidden bg-white rounded-lg shadow-md">
           <thead className="text-sm leading-normal text-orange-400 uppercase bg-gray-200">
             <tr>
               <th className="px-6 py-3 font-bold text-left">Leave Balance</th>
@@ -41,7 +41,10 @@ const History = () => {
           </thead>
           <tbody>
             {currentItems.map((item, index) => (
-              <tr key={index}>
+              <tr
+                key={index}
+                className="border-b border-gray-200 hover:bg-gray-100"
+              >
                 <td className="px-6 py-4 capitalize whitespace-nowrap">
                   {item.type}
                 </td>

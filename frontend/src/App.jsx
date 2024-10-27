@@ -1,38 +1,25 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy } from "react";
 import AppLayout from "./layout/AppLayout";
+import Login from "./pages/public/Login/Login";
+import Register from "./pages/public/Register/Register";
+import { ProtectedRoute, PublicRoute } from "./components/Routes";
 const Dashboard = lazy(() => import("./pages/protected/Dashboard/Dashboard"));
 const RequestTimeOff = lazy(() =>
   import("./pages/protected/Dashboard/Component/LeaveRequest")
 );
-import Login from "./pages/public/Login/Login";
-import Register from "./pages/public/Register/Register";
-
-import History from "./pages/protected/History/History";
-
-import CreateAnnouncements from "./pages/protected/Dashboard/Component/Create Announcements";
-
-import { ProtectedRoute, PublicRoute } from "./components/Routes";
+const CreateAnnouncements = lazy(() =>
+  import("./pages/protected/Announcements/CreateAnnouncements")
+);
 const History = lazy(() => import("./pages/protected/History/History"));
 const AdminLeaveApprovalPage = lazy(() =>
   import("./pages/protected/Request/Request")
 );
 
-
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/admin" element={<AppLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="/admin/history" element={<History />} />
-          <Route path="form" element={<RequestTimeOff />} />
-          <Route path="request" element={<AdminLeaveApprovalPage />} />
-          <Route path="CreateAnnouncements" element={<CreateAnnouncements />} />
-
         <Route
           path="/"
           element={
@@ -61,7 +48,10 @@ const App = () => {
           <Route path="history" element={<History />} />
           <Route path="form" element={<RequestTimeOff />} />
           <Route path="request" element={<AdminLeaveApprovalPage />} />
-
+          <Route
+            path="create-announcements"
+            element={<CreateAnnouncements />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

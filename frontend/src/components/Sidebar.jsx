@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { FiHome, FiSettings, FiList } from "react-icons/fi"; // Added FiList for Request icon
+import { FiHome, FiSettings, FiList } from "react-icons/fi";
+import { TfiAnnouncement } from "react-icons/tfi";
 import download from "../assets/download.jpeg";
 import useProfile from "../hooks/useProfile";
 
@@ -25,6 +26,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           Cyberbyte
         </span>
       </div>
+
       <nav className="mt-5">
         <NavLink
           to="/admin"
@@ -92,19 +94,30 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             </span>
           )}
         </NavLink>
+
         {user?.role === "admin" && (
           <NavLink
-            to="/admin/CreateAnnouncements"
-            className="flex items-center p-4 hover:bg-gray-700"
+            to="/admin/create-announcements"
+            className={({ isActive }) =>
+              `flex items-center p-4 ${
+                isActive ? "bg-white" : "hover:bg-white"
+              }`
+            }
           >
-            <FiList className="text-2xl fill-primary text-primary" />
-            <span
-              className={`ml-4 text-lg transition-opacity duration-300 text-primary font-semibold ${
-                isOpen ? "opacity-100" : "opacity-0"
+            <TfiAnnouncement
+              className={`text-2xl fill-primary text-primary ${
+                !isOpen ? "mx-auto" : ""
               }`}
-            >
-              Create Announcements
-            </span>
+            />
+            {isOpen && (
+              <span
+                className={`ml-4 text-lg transition-opacity duration-300 text-primary font-semibold ${
+                  isOpen ? "opacity-100" : "opacity-0"
+                }`}
+              >
+                Announcements
+              </span>
+            )}
           </NavLink>
         )}
       </nav>

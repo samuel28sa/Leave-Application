@@ -64,7 +64,7 @@ const AdminLeaveApprovalPage = () => {
 
   return (
     <div className="">
-      <h1 className="mb-6 text-3xl font-bold text-white-700">Leave Requests</h1>
+      <h1 className="mb-6 text-xl font-bold text-white-700">Leave Requests</h1>
 
       <div className="overflow-x-auto">
         {loading ? (
