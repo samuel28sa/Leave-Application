@@ -59,7 +59,7 @@ const Dashboard = () => {
           <div className="flex flex-col h-full col-span-4 gap-2 ">
             {/* Announcements Panel */}
 
-            <Panel className="h-48 p-4 rounded-lg shadow-md bg-gray-50">
+            <Panel className="p-4 rounded-lg shadow-md bg-gray-50">
               <h3 className="mb-2 text-lg font-bold text-black">
                 Announcements 📢
               </h3>
