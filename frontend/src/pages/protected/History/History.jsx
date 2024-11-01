@@ -10,7 +10,7 @@ const History = () => {
     // Add more leave types if needed
   ];
 
-  const itemsPerPage = 2; // Number of items to display per page
+  const itemsPerPage = 5; // Number of items to display per page
   const [currentPage, setCurrentPage] = useState(1);
 
   // Calculate the index of the first and last item on the current page
